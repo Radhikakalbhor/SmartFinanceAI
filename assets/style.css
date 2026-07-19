@@ -1,0 +1,33 @@
+.main {
+    background-color: #f5f7fb;
+}
+
+h1{
+    color:#1E3A8A;
+}
+
+h2{
+    color:#2563EB;
+}
+
+div[data-testid="metric-container"]{
+    background:white;
+    border-radius:15px;
+    padding:18px;
+    box-shadow:0px 3px 10px rgba(0,0,0,.08);
+}
+
+.stButton>button{
+    border-radius:10px;
+    font-weight:bold;
+    height:50px;
+    width:100%;
+}
+
+.stDownloadButton>button{
+    border-radius:10px;
+}
+
+.css-1d391kg{
+    background:#FFFFFF;
+}

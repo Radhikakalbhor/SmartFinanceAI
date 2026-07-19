@@ -1,0 +1,312 @@
+import streamlit as st
+from utils.gemini import ask_gemini
+
+st.set_page_config(
+    page_title="AI Financial Assistant",
+    page_icon="🤖",
+    layout="wide"
+)
+
+# ==========================
+# Load CSS
+# ==========================
+
+def load_css():
+    with open("assets/style.css") as f:
+        st.markdown(
+            f"<style>{f.read()}</style>",
+            unsafe_allow_html=True
+        )
+
+load_css()
+
+# ==========================
+# Sidebar
+# ==========================
+
+st.sidebar.image("assets/logo.png", width=120)
+
+st.sidebar.title("🤖 SmartFinance AI")
+
+st.sidebar.markdown("---")
+
+st.sidebar.success("Your Personal AI Financial Assistant")
+
+st.sidebar.markdown("---")
+
+st.sidebar.info("""
+Ask anything about:
+
+• Budgeting
+
+• SIP
+
+• EMI
+
+• Mutual Funds
+
+• Credit Cards
+
+• Saving Money
+
+• Investments
+
+• Financial Planning
+""")
+
+# ==========================
+# Title
+# ==========================
+
+st.title("🤖 AI Financial Assistant")
+
+st.subheader("Ask anything about Personal Finance")
+
+st.markdown("---")
+
+st.info(
+    "Powered by OpenRouter + GPT OSS 20B. "
+    "Ask any finance-related question in natural language."
+)
+
+# ==========================
+# Suggested Questions
+# ==========================
+
+st.markdown("## 💡 Suggested Questions")
+
+col1, col2 = st.columns(2)
+
+with col1:
+
+    st.markdown("""
+- What is SIP?
+
+- What is EMI?
+
+- What is a Mutual Fund?
+
+- Explain Compound Interest.
+
+- What is Inflation?
+""")
+
+with col2:
+
+    st.markdown("""
+- Difference between SIP and FD?
+
+- How can I save ₹5000 every month?
+
+- Explain the 50-30-20 Budget Rule.
+
+- Should I prepay my loan?
+
+- Tips to reduce monthly expenses.
+""")
+
+st.markdown("---")
+
+# ==========================
+# Chat History
+# ==========================
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# ==========================
+# Display Previous Messages
+# ==========================
+
+for message in st.session_state.messages:
+
+    with st.chat_message(message["role"]):
+
+        st.markdown(message["content"])
+
+# ==========================
+# Chat Input
+# ==========================
+
+prompt = st.chat_input("Ask your finance question here...")
+# ==========================
+# AI Response
+# ==========================
+
+if prompt:
+
+    # Store User Message
+    st.session_state.messages.append(
+        {
+            "role": "user",
+            "content": prompt
+        }
+    )
+
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    # Improved Prompt
+    enhanced_prompt = f"""
+You are SmartFinance AI, an intelligent Personal Financial Assistant.
+
+Instructions:
+
+- Explain in beginner-friendly language.
+- Keep answers concise but informative.
+- Use bullet points whenever useful.
+- Use Indian Rupees (₹) whenever discussing money.
+- Give practical examples whenever possible.
+- If the question involves investments, mention that returns are subject to market risks.
+- Avoid overly technical terms unless the user asks.
+
+User Question:
+{prompt}
+"""
+
+    # AI Response
+    with st.chat_message("assistant"):
+
+        with st.spinner("🤖 Thinking..."):
+
+            try:
+
+                response = ask_gemini(enhanced_prompt)
+
+            except Exception as e:
+
+                response = f"❌ Error: {e}"
+
+        st.markdown(response)
+
+    # Save AI Response
+    st.session_state.messages.append(
+        {
+            "role": "assistant",
+            "content": response
+        }
+    )
+
+st.markdown("---")
+
+# ==========================
+# Quick Questions
+# ==========================
+
+st.subheader("⚡ Try Asking")
+
+q1, q2, q3 = st.columns(3)
+
+with q1:
+
+    st.info("""
+• What is SIP?
+
+• What is EMI?
+
+• What is Mutual Fund?
+""")
+
+with q2:
+
+    st.info("""
+• How do I save money?
+
+• What is Inflation?
+
+• Explain FD.
+""")
+
+with q3:
+
+    st.info("""
+• Budget tips
+
+• Credit score
+
+• Emergency Fund
+""")
+
+st.markdown("---")
+
+# ==========================
+# Clear Chat
+# ==========================
+
+if st.button("🗑 Clear Conversation"):
+
+    st.session_state.messages = []
+
+    st.success("Conversation cleared successfully!")
+
+    st.rerun()
+
+st.markdown("---")
+
+# ==========================
+# About Assistant
+# ==========================
+
+with st.expander("ℹ About SmartFinance AI"):
+
+    st.write("""
+SmartFinance AI is an LLM-powered Personal Financial Assistant developed to help users understand finance in a simple and interactive way.
+
+### Features
+
+- 🤖 AI-powered financial guidance
+- 💰 Budget planning support
+- 📈 Investment education
+- 🏦 Loan & EMI explanations
+- 🎯 Savings recommendations
+- 📊 Beginner-friendly financial concepts
+
+This assistant is powered by **OpenRouter** using the **GPT OSS 20B** language model.
+""")
+
+st.markdown("---")
+
+# ==========================
+# Disclaimer
+# ==========================
+
+st.warning("""
+### ⚠ Disclaimer
+
+Responses generated by the AI are for educational purposes only.
+
+They should not be considered professional financial or investment advice.
+
+Always consult a certified financial advisor before making important financial decisions.
+""")
+
+st.markdown("---")
+
+# ==========================
+# Footer
+# ==========================
+
+st.markdown(
+"""
+<div style='text-align:center;padding:20px;'>
+
+<h3>🤖 SmartFinance AI Assistant</h3>
+
+<p>
+LLM-Based Personal Financial Assistant
+</p>
+
+<p>
+Developed by <b>Radhika Kalbhor</b><br>
+Department of Information Technology<br>
+Shah & Anchor Kutchhi Engineering College (SAKEC)
+</p>
+
+<p>
+Powered by OpenRouter • GPT OSS 20B
+</p>
+
+</div>
+""",
+unsafe_allow_html=True
+)
