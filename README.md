@@ -73,6 +73,18 @@ The project also includes interactive dashboards, reports, historical data track
 - ☁️ Streamlit Cloud Deployment
 
 ---
+## 🌟 Project Highlights
+
+- 🤖 **LLM-Powered Financial Advisor** using OpenRouter and GPT-OSS 20B.
+- 📊 **Interactive Dashboard** to visualize financial insights.
+- 💰 **Budget Planner** to create and manage monthly budgets.
+- 📈 **Savings Goal Planner** to estimate the time needed to reach savings targets.
+- 🏦 **EMI Calculator** for loan repayment planning.
+- 📈 **SIP Calculator** for investment growth estimation.
+- 📑 **Financial Reports & Analytics** with interactive charts.
+- 💬 **AI Chatbot** for answering personal finance questions.
+- 📜 **History Center** to track previous calculations and analyses.
+- ☁️ **Deployed on Streamlit Cloud** for easy access from any browser.
 
 # 🛠️ Technology Stack
 
@@ -88,53 +100,48 @@ The project also includes interactive dashboards, reports, historical data track
 | Deployment | Streamlit Community Cloud |
 # 📸 Application Screenshots
 
----
+<table>
+<tr>
+<td align="center"><b>🏠 Home Page</b></td>
+<td align="center"><b>📊 Dashboard</b></td>
+</tr>
 
-## 🏠 Home Page
+<tr>
+<td><img src="images/home%20page.png" width="100%"></td>
+<td><img src="images/dashboard.png" width="100%"></td>
+</tr>
 
-![Home Page](images/home%20page.png)
+<tr>
+<td align="center"><b>💰 Budget Planner</b></td>
+<td align="center"><b>📋 Budget Plan</b></td>
+</tr>
 
----
+<tr>
+<td><img src="images/budget%20planner1.png" width="100%"></td>
+<td><img src="images/budget%20planner2.png" width="100%"></td>
+</tr>
 
-## 📊 Dashboard
+<tr>
+<td align="center"><b>🤖 AI Financial Assistant</b></td>
+<td align="center"><b>💬 AI Chatbot</b></td>
+</tr>
 
-![Dashboard](images/dashboard.png)
+<tr>
+<td><img src="images/AI%20assistant1.png" width="100%"></td>
+<td><img src="images/AI%20assistant2.png" width="100%"></td>
+</tr>
 
----
+<tr>
+<td align="center"><b>📈 Reports</b></td>
+<td align="center"><b>📊 Analytics Dashboard</b></td>
+</tr>
 
-## 💰 Budget Planner
+<tr>
+<td><img src="images/Reports1.png" width="100%"></td>
+<td><img src="images/reports2.png" width="100%"></td>
+</tr>
 
-![Budget Planner](images/budget%20planner1.png)
-
----
-
-## 💰 Budget Planner Results
-
-![Budget Planner Results](images/budget%20planner2.png)
-
----
-
-## 🤖 AI Financial Assistant
-
-![AI Financial Assistant](images/AI%20assistant1.png)
-
----
-
-## 🤖 AI Chatbot
-
-![AI Chatbot](images/AI%20assistant2.png)
-
----
-
-## 📈 Reports & Analytics
-
-![Reports](images/Reports1.png)
-
----
-
-## 📈 Financial Reports Dashboard
-
-![Reports Dashboard](images/reports2.png)
+</table>
 # 📂 Project Structure
 
 ```text
