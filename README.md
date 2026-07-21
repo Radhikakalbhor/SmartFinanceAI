@@ -88,13 +88,11 @@ The project also includes interactive dashboards, reports, historical data track
 | Deployment | Streamlit Community Cloud |
 # 📸 Application Screenshots
 
-> **Note:** Add your screenshots to an `images` folder in the project root using the filenames shown below.
-
 ---
 
 ## 🏠 Home Page
 
-![Home Page](images/home.png)
+![Home Page](images/home%20page.png)
 
 ---
 
@@ -106,28 +104,37 @@ The project also includes interactive dashboards, reports, historical data track
 
 ## 💰 Budget Planner
 
-![Budget Planner](images/budget.png)
+![Budget Planner](images/budget%20planner1.png)
 
 ---
 
-## 📊 Expense Analyzer
+## 💰 Budget Planner Results
 
-![Expense Analyzer](images/expense.png)
+![Budget Planner Results](images/budget%20planner2.png)
 
 ---
 
 ## 🤖 AI Financial Assistant
 
-![AI Financial Assistant](images/ai-assistant.png)
+![AI Financial Assistant](images/AI%20assistant1.png)
+
+---
+
+## 🤖 AI Chatbot
+
+![AI Chatbot](images/AI%20assistant2.png)
 
 ---
 
 ## 📈 Reports & Analytics
 
-![Reports](images/reports.png)
+![Reports](images/Reports1.png)
 
 ---
 
+## 📈 Financial Reports Dashboard
+
+![Reports Dashboard](images/reports2.png)
 # 📂 Project Structure
 
 ```text
