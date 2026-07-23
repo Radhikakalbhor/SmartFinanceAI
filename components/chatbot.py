@@ -1,3 +1,5 @@
+# components/chatbot.py
+
 import streamlit as st
 from utils.gemini import ask_gemini
 
@@ -11,13 +13,45 @@ def render_chatbot(
     goal_progress
 ):
 
+    # =====================================================
+    # TITLE
+    # =====================================================
+
     st.markdown("## 🤖 SmartFinance AI Copilot")
 
     st.caption("Powered by OpenRouter AI")
 
-    # ---------------------------------------
-    # Suggested Questions
-    # ---------------------------------------
+    # =====================================================
+    # INITIALIZE CHAT HISTORY
+    # =====================================================
+
+    if "dashboard_chat_messages" not in st.session_state:
+        st.session_state.dashboard_chat_messages = []
+
+    # =====================================================
+    # HEADER + CLEAR BUTTON
+    # =====================================================
+
+    title_col, clear_col = st.columns([4, 1])
+
+    with title_col:
+        st.markdown("### 💬 AI Conversation")
+
+    with clear_col:
+
+        if st.button(
+            "🗑 Clear Chat",
+            use_container_width=True,
+            key="clear_dashboard_chat"
+        ):
+
+            st.session_state.dashboard_chat_messages = []
+
+            st.rerun()
+
+    # =====================================================
+    # SUGGESTED QUESTIONS
+    # =====================================================
 
     st.markdown("### 💡 Suggested Questions")
 
@@ -27,17 +61,19 @@ def render_chatbot(
 
         if st.button(
             "💰 How can I save more money?",
-            use_container_width=True
+            use_container_width=True,
+            key="save_more_question"
         ):
-            st.session_state["prompt"] = (
+            st.session_state.dashboard_prompt = (
                 "How can I save more money?"
             )
 
         if st.button(
             "📈 Should I increase my SIP?",
-            use_container_width=True
+            use_container_width=True,
+            key="sip_question"
         ):
-            st.session_state["prompt"] = (
+            st.session_state.dashboard_prompt = (
                 "Should I increase my SIP?"
             )
 
@@ -45,116 +81,142 @@ def render_chatbot(
 
         if st.button(
             "🏦 Is my EMI healthy?",
-            use_container_width=True
+            use_container_width=True,
+            key="emi_question"
         ):
-            st.session_state["prompt"] = (
+            st.session_state.dashboard_prompt = (
                 "Is my EMI healthy?"
             )
 
         if st.button(
             "📊 Analyze my finances",
-            use_container_width=True
+            use_container_width=True,
+            key="finance_question"
         ):
-            st.session_state["prompt"] = (
+            st.session_state.dashboard_prompt = (
                 "Analyze my finances."
             )
 
     st.write("")
 
-    # ---------------------------------------
-    # Conversation History
-    # ---------------------------------------
+    # =====================================================
+    # DISPLAY COMPLETE CONVERSATION HISTORY
+    # =====================================================
 
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
+    for message in st.session_state.dashboard_chat_messages:
 
-    for msg in st.session_state.messages:
+        with st.chat_message(message["role"]):
 
-        with st.chat_message(msg["role"]):
+            st.markdown(message["content"])
 
-            st.markdown(msg["content"])
-
-    # ---------------------------------------
-    # User Input
-    # ---------------------------------------
-
-    default_prompt = st.session_state.get(
-        "prompt",
-        ""
-    )
+    # =====================================================
+    # CHAT INPUT
+    # =====================================================
 
     question = st.chat_input(
-        placeholder="Ask SmartFinance AI anything..."
+        "Ask SmartFinance AI anything...",
+        key="dashboard_chat_input"
     )
 
-    if not question and default_prompt:
-        question = default_prompt
-        st.session_state["prompt"] = ""
+    # =====================================================
+    # HANDLE SUGGESTED QUESTION
+    # =====================================================
+
+    suggested_question = st.session_state.pop(
+        "dashboard_prompt",
+        None
+    )
+
+    if not question and suggested_question:
+
+        question = suggested_question
+
+    # =====================================================
+    # PROCESS QUESTION
+    # =====================================================
 
     if question:
 
-        st.session_state.messages.append(
+        # -------------------------------------------------
+        # SAVE USER QUESTION
+        # -------------------------------------------------
+
+        st.session_state.dashboard_chat_messages.append(
             {
                 "role": "user",
                 "content": question
             }
         )
 
+        # Display current question immediately
+
         with st.chat_message("user"):
+
             st.markdown(question)
 
+        # -------------------------------------------------
+        # CREATE FINANCIAL CONTEXT
+        # -------------------------------------------------
+
         prompt = f"""
-You are SmartFinance AI.
+You are SmartFinance AI, an intelligent Personal Financial Assistant.
 
-User Financial Data
+The user's current financial information is:
 
-Income: ₹{income}
-
-Expenses: ₹{expenses}
-
-Savings: ₹{savings}
-
-Monthly SIP: ₹{monthly_sip}
-
-Monthly EMI: ₹{monthly_emi}
-
+Monthly Income: ₹{income:,.2f}
+Monthly Expenses: ₹{expenses:,.2f}
+Current Savings: ₹{savings:,.2f}
+Monthly SIP: ₹{monthly_sip:,.2f}
+Monthly EMI: ₹{monthly_emi:,.2f}
 Savings Goal Progress: {goal_progress:.1f}%
 
-Rules
+INSTRUCTIONS:
 
-1. Give practical advice.
+1. Answer only in English.
+2. Do not use Hindi, Urdu, Arabic or any other language.
+3. Give practical and beginner-friendly financial guidance.
+4. Use bullet points when useful.
+5. Use Indian Rupees (₹) when discussing money.
+6. Mention calculations and numbers whenever appropriate.
+7. Keep the answer concise but informative.
+8. Do not guarantee investment returns.
+9. For investments, mention market risk whenever relevant.
+10. Use the user's financial information when it is relevant to the question.
 
-2. Use bullet points.
-
-3. Mention numbers whenever possible.
-
-4. Keep answers concise.
-
-User Question
+USER QUESTION:
 
 {question}
 """
 
-        with st.spinner(
-            "🤖 SmartFinance AI is analyzing your finances..."
-        ):
-
-            try:
-
-                answer = ask_gemini(prompt)
-
-            except Exception as e:
-
-                answer = (
-                    "Unable to contact the AI model.\n\n"
-                    f"Error: {e}"
-                )
+        # -------------------------------------------------
+        # GET AI RESPONSE
+        # -------------------------------------------------
 
         with st.chat_message("assistant"):
 
+            with st.spinner(
+                "🤖 SmartFinance AI is analyzing..."
+            ):
+
+                try:
+
+                    answer = ask_gemini(prompt)
+
+                except Exception as e:
+
+                    answer = (
+                        "⚠️ SmartFinance AI could not "
+                        "generate a response.\n\n"
+                        f"Error: {e}"
+                    )
+
             st.markdown(answer)
 
-        st.session_state.messages.append(
+        # -------------------------------------------------
+        # SAVE AI RESPONSE
+        # -------------------------------------------------
+
+        st.session_state.dashboard_chat_messages.append(
             {
                 "role": "assistant",
                 "content": answer

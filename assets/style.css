@@ -143,20 +143,29 @@ div[data-testid="metric-container"]:hover{
 /* ---------------- Inputs ---------------- */
 
 .stTextInput input,
-
 .stNumberInput input,
-
 .stTextArea textarea,
-
 .stSelectbox div[data-baseweb="select"]{
 
     background:#1E293B !important;
-
-    color:white !important;
-
+    color:#FFFFFF !important;
     border-radius:12px !important;
-
     border:1px solid #334155 !important;
+}
+
+/* Chat input (Streamlit) */
+
+[data-testid="stChatInput"] textarea,
+[data-testid="stChatInput"] input{
+    background:#FFFFFF !important;
+    color:#000000 !important;
+    -webkit-text-fill-color:#000000 !important;
+    caret-color:#000000 !important;
+}
+
+
+[data-testid="stChatInput"] textarea::placeholder{
+    color:#6B7280 !important;
 }
 
 /* ---------------- File uploader ---------------- */
@@ -237,17 +246,23 @@ div[data-testid="stMetricValue"]{
 
 /* ---------------- Chat ---------------- */
 
+/* Chat message */
+
 [data-testid="stChatMessage"]{
-
-    background:#111827;
-
+    background:#111827 !important;
+    color:#FFFFFF !important;
     border-radius:18px;
-
     padding:12px;
-
     margin-bottom:10px;
-
     border:1px solid rgba(255,255,255,.08);
+}
+
+/* Chat text */
+
+[data-testid="stChatMessage"] p,
+[data-testid="stChatMessage"] div,
+[data-testid="stChatMessage"] span{
+    color:#FFFFFF !important;
 }
 
 /* ---------------- Scrollbar ---------------- */
@@ -272,4 +287,61 @@ div[data-testid="stMetricValue"]{
 ::-webkit-scrollbar-thumb:hover{
 
     background:#60A5FA;
+}
+/* Fix AI Chat Text Color */
+
+[data-testid="stChatMessage"] * {
+    color: #FFFFFF !important;
+}
+
+[data-testid="stMarkdown"] * {
+    color: #FFFFFF !important;
+}
+
+.stMarkdown {
+    color: #FFFFFF !important;
+}
+
+li, ul, ol {
+    color: #FFFFFF !important;
+}
+
+strong, em, code {
+    color: #FFFFFF !important;
+}
+/* Force all Markdown text in chat to white */
+
+[data-testid="stChatMessage"] ul,
+[data-testid="stChatMessage"] ol,
+[data-testid="stChatMessage"] li,
+[data-testid="stChatMessage"] p,
+[data-testid="stChatMessage"] span,
+[data-testid="stChatMessage"] div,
+[data-testid="stChatMessage"] strong,
+[data-testid="stChatMessage"] code {
+    color: white !important;
+}
+/* ===== Fix Markdown Lists in Chat ===== */
+
+[data-testid="stMarkdownContainer"] ul,
+[data-testid="stMarkdownContainer"] ol,
+[data-testid="stMarkdownContainer"] li,
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] span,
+[data-testid="stMarkdownContainer"] strong {
+    color: #FFFFFF !important;
+}
+
+[data-testid="stMarkdownContainer"] li::marker {
+    color: #60A5FA !important;
+}
+[data-baseweb="base-input"] * {
+    color: black !important;
+    -webkit-text-fill-color: black !important;
+    caret-color: black !important;
+}
+
+[data-baseweb="base-input"] input {
+    color: black !important;
+    -webkit-text-fill-color: black !important;
 }
